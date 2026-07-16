@@ -15,3 +15,5 @@
     - File encryption and decryption
     - Authentication
     - And more
+
+- Manual editing and coding only

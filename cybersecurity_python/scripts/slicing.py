@@ -1,3 +1,7 @@
+############################################
+# Slicing and masking, usefull for passwords
+############################################
+
 password = "swordfish123"
 masked_password = "*" * len(password)
 
