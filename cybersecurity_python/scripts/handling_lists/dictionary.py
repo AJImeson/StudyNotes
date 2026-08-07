@@ -23,3 +23,5 @@ for key, value in user_info.items(): # Loops through dict items
     print(f"{key}:{value}")
 
 print(user_info.values)
+
+
