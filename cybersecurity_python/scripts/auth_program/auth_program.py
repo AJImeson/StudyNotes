@@ -9,7 +9,6 @@ def clear_terminal():
 
 user_info = {}
 
-while true 
 
 def register_user(): # Register function
     
@@ -27,17 +26,38 @@ def login(): # Login function
     username = input("Enter your username ")
     password = input("Enter your password ")
     
+    # Validation check of passwords 
     if username in user_info and user_info[username] == password:
-        print("Welcome baxk ")
+        print("Welcome back ")
     else:
         print("Invalid credentials. Please try again") 
 
+# Main menu
 
+def authenticate_system():
+    clear_terminal()
+    while True:
+        clear_terminal()
+        print(f"Authentication system\n")
+        print("1 - Register")
+        print("2 - Login")
+        print("3 - Exit")
 
+        option = input("\nSelect a choice ")
 
-register_user()
-login()
+        if option == "1":
+            clear_terminal()
+            register_user()
+        elif option == "2":
+            clear_terminal()
+            login()
+        elif option == "3":
+            print("Exiting...")
+            break
+        else:
+            print("Please choose a valid option")
+            input("")
 
-
+authenticate_system()
 
 
