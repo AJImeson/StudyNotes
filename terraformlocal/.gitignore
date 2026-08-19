@@ -1,0 +1,17 @@
+*.tfstate
+*.tfstate.*
+
+*.tfplan
+
+*.tfvars
+*.auto.tfvars
+!*.tfvars.example
+
+*.envrc
+
+crash.log
+crash.*.log
+
+.terraform/
+.terraform.lock.hcl.backup
+
