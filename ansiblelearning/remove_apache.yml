@@ -1,0 +1,21 @@
+## Playbook test file
+
+---
+
+- hosts: localhost # For all machines in repository
+  become: true
+  tasks: # Executed script and commands
+
+  - name: update repository index
+    apt:
+      update_cache: yes
+
+  - name: install apache2 package 
+    apt: # Chosen module
+      name: apache2 # Chosen package
+      state: absent # Removes chosen package
+
+  - name: add php support for apache
+    apt:
+      name: libapache2-mod-php
+      state: absent # Removes chosen package
