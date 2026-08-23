@@ -18,3 +18,11 @@ variable "external_port" {
   type = number
   default = 8000
 }
+
+variable "source_address" {
+  description = "Public IP for SSH"
+  type = string
+  default = "158.174.22.25"
+
+
+}
