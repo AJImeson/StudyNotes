@@ -1,0 +1,30 @@
+# Example for Playbook
+
+---
+
+- name: First Play # Set name 
+  hosts: all # Target all machines
+  become: true # Enables sudo permission
+  tasks: # What to do
+
+    - name: Ping # Ping the machine
+      ansible.builtin.ping: # Ansible built in module
+
+    - name: Packet update
+      ansible.builtin.apt:
+        name: 
+          - '*'
+        state: latest
+        update_cache: true
+
+    - name: Install DCSS
+      ansible.builtin.apt:
+        name:
+          - crawl
+        state: present
+
+    - name: Create User
+      ansible.builtin.user:
+       name: axel
+       create_home: true   
+        

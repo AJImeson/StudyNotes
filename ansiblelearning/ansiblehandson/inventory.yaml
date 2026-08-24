@@ -1,0 +1,7 @@
+all:
+  hosts:
+    ## Ip adress or given name for machine, if given name, ssh key needs to be declared in inventory:
+    ansible_user: root
+    ansible_ssh_private_key_file: # path to key
+    ansible_host: #my ip address
+
