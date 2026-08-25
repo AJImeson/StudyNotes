@@ -35,7 +35,7 @@ resource "azurerm_network_security_group" "ajtest"{
     protocol                    = "Tcp"
     source_port_range           = "*"
     destination_port_range      = "22"
-    source_address_prefix       = var.source_address
+    source_address_prefix       = var.ssh_source_address
     destination_address_prefix  = "*"
   }
 }

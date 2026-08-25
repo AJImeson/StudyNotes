@@ -1,7 +1,8 @@
 all:
   hosts:
-    ## Ip adress or given name for machine, if given name, ssh key needs to be declared in inventory:
-    ansible_user: root
-    ansible_ssh_private_key_file: # path to key
-    ansible_host: #my ip address
+    ajtest-machine:
+      
+      ansible_user: aj
+      ansible_ssh_private_key_file: ~/.ssh/id_ed25519.pub
+      ansible_host: 74.248.132.179 
 

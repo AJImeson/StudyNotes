@@ -3,18 +3,16 @@
 ---
 
 - name: First Play # Set name 
-  hosts: all # Target all machines
+  hosts: ajtest-machine # Target all machines
   become: true # Enables sudo permission
   tasks: # What to do
 
     - name: Ping # Ping the machine
       ansible.builtin.ping: # Ansible built in module
 
-    - name: Packet update
+    - name: Upgrade all packages 
       ansible.builtin.apt:
-        name: 
-          - '*'
-        state: latest
+        upgrade: dist
         update_cache: true
 
     - name: Install DCSS
@@ -22,6 +20,11 @@
         name:
           - crawl
         state: present
+
+    - name: Set Timezone to Sweden
+      become: true
+      community.general.timezone:
+        name: Europe/Stockholm
 
     - name: Create User
       ansible.builtin.user:
