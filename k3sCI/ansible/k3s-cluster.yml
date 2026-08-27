@@ -3,13 +3,19 @@
   hosts: k3s_server
   become: true
   tasks:
-    - name: Install K3s
+    - name: SSH Pause
+      ansible.builtin.wait_for_connection:
+        timeout: 300
+
+    - name: Server Install 
       ansible.builtin.shell: |
-        curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server \
-          --token {{ k3s_token }} \
-          --tls-san {{ inventory_hostname }} \
-          --node-external-ip {{ inventory_hostname }} \
-          --write-kubeconfig-mode 644" sh -
+       curl -sfL https://get.k3s.io | \
+          K3S_TOKEN="{{ k3s_token }}" \
+          INSTALL_K3S_EXEC="server \
+            --advertise-address {{ server_private_ip }} \
+            --tls-san {{ inventory_hostname }} \
+            --node-external-ip {{ inventory_hostname }} \
+            --write-kubeconfig-mode 644" sh -
       args:
         creates: /usr/local/bin/k3s
 
@@ -22,16 +28,22 @@
   hosts: k3s_agents
   become: true
   tasks:
-    - name: Node token reader
-      ansible.builtin.slurp:
-        src: /var/lib/rancher/k3s/server/node-token
-      delegate_to: "{{ groups['k3s_server'][0] }}"
-      register: server_token
+    - name: SSH Pause
+      ansible.builtin.wait_for_connection:
+        timeout: 300
 
     - name: Install k3s agent
       ansible.builtin.shell: |
         curl -sfL https://get.k3s.io | \
           K3S_URL="https://{{ server_private_ip }}:6443" \
-          K3S_TOKEN="{{ server_token.content | b64decode | trim }}" sh -
+          K3S_TOKEN="{{ k3s_token }}" sh -
       args:
         creates: /usr/local/bin/k3s
+  
+    - name: Label agents as workers
+      ansible.builtin.command:
+        cmd: >
+          k3s kubectl label node {{ hostvars[inventory_hostname]['ansible_hostname'] }}
+          node-role.kubernetes.io/worker=true --overwrite
+      delegate_to: "{{ groups['k3s_server'][0] }}"
+      changed_when: false

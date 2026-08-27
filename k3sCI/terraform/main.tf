@@ -5,6 +5,10 @@ data "azurerm_platform_image" "ubuntu" {
   sku       = "server"
 }
 
+resource "random_password" "k3s_token" {
+  length  = 48
+  special = false
+}
 
 resource "azurerm_resource_group" "k3stest" {
   name     = "${var.prefix}-rg"
@@ -114,4 +118,17 @@ resource "azurerm_linux_virtual_machine" "k3stest" {
   lifecycle {
     ignore_changes = [source_image_reference]
   }
+}
+
+resource "local_file" "inventory" {
+  filename        = "${path.module}/../ansible/inventory.ini"
+  file_permission = "0600"
+
+  content = templatefile("${path.module}/inventory.tmpl", {
+    server_ip         = azurerm_public_ip.k3stest[0].ip_address
+    server_private_ip = azurerm_network_interface.k3stest[0].private_ip_address
+    agent_ips         = slice(azurerm_public_ip.k3stest[*].ip_address, 1, var.node_count)
+    admin_user        = var.admin_user
+    k3s_token         = random_password.k3s_token.result
+  })
 }

@@ -1,17 +1,18 @@
 [k3s_server]
-74.248.137.176
+${server_ip}
 
 [k3s_agents]
-20.215.213.95
-20.215.210.87
+%{ for ip in agent_ips ~}
+${ip}
+%{ endfor ~}
 
 [k3s:children]
 k3s_server
 k3s_agents
 
 [k3s:vars]
-ansible_user=azureuser
+ansible_user=${admin_user}
 ansible_ssh_private_key_file=~/.ssh/id_ed25519
 ansible_python_interpreter=/usr/bin/python3
-server_private_ip=10.20.1.4
-k3s_token=2eTtwEWyP6DTdma4FOE2c7E2tq2Hse9mmOugNECIA9rejNFO
+server_private_ip=${server_private_ip}
+k3s_token=${k3s_token}
