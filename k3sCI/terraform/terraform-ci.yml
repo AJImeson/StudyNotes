@@ -1,0 +1,37 @@
+.terraform:
+  image:
+    name: hashicorp/terraform:1.9
+    entrypoint: [""]
+  before_script:
+    - cd terraform/
+    - terraform --version
+    - terraform init
+
+terraform-validate:
+  extends: .terraform
+  stage: validate
+  script:
+    - terraform validate
+    - terraform fmt -check=true
+
+terraform-plan:
+  extends: .terraform
+  stage: plan
+  script:
+    - terraform plan -input=false
+
+terraform-apply:
+  extends: .terraform
+  stage: apply
+  script:
+    - terraform apply -auto-approve -input=false
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+terraform-destroy:
+  stage: destroy
+  script:
+    - terraform destroy -auto-approve -input=false
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual 
