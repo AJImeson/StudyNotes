@@ -1,0 +1,20 @@
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_BRANCH
+
+variables:
+  TF_ROOT: terraform
+  ANSIBLE_ROOT: ansible
+
+stages:
+
+  - validate
+  - plan
+
+include:
+
+  - local: 'terraform/ci.yml'
+  - local: 'ansible/ci.yml'
