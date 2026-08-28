@@ -3,7 +3,7 @@
     name: hashicorp/terraform:1.9
     entrypoint: [""]
   variables:
-    TF_STATE: "${CI_AP_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/k3s"
+    TF_STATE: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/k3s"
     TF_HTTP_ADDRESS: "${TF_STATE}"
     TF_HTTP_LOCK_ADDRESS: "${TF_STATE}/lock" 
     TF_HTTP_UNLOCK_ADDRESS: "${TF_STATE}/lock"
@@ -13,7 +13,7 @@
     TF_HTTP_PASSWORD: "${CI_JOB_TOKEN}"
 
   before_script:
-    - cd terraform/
+    - cd k3sCI/terraform/
     - export TF_VAR_user_ip="$(curl -s ifconfig.me)/32"
     - terraform --version
     - terraform init
