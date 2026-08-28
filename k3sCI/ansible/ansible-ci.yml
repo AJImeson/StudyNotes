@@ -8,6 +8,6 @@ ansible-lint:
   extends: .ansible
   stage: validate
   script:
-    - ansible-playbook ansible/k3s-cluster.yml --syntax-check # Unmatched host patterns warning
-    - ansible-lint ansible/
+    - ansible-playbook k3sCI/ansible/k3s-cluster.yml --syntax-check # Unmatched host patterns warnin
+    - ansible-lint k3sCI/ansible/
   allow_failure: true
