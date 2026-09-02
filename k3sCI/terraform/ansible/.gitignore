@@ -1,0 +1,9 @@
+*inventory.ini
+ansible/inventory.ini
+ansible/*.retry
+ansible/ansible.log
+ansible/.vault_pass
+ansible/facts_cache/
+ansible/collections/
+kubeconfig
+*.yaml.kubeconfig
